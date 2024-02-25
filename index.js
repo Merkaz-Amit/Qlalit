@@ -16,7 +16,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/appointments" element={<Appointments />} />
           <Route path="/newappointment" element={<NewAppointment />} />
-		  <Route path="/searchbyname" element={<SearchByName />} />
+		      <Route path="/searchbyname" element={<SearchByName />} />
           <Route path="/searchAppointments" element={<EnhancedTable />} />
         </Routes>
         <link rel = 'stylesheet' href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
