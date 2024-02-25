@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavigationBar from './compenents/NavigationBar';
-import Home from './Home';
+import Home from './pages/Home';
 import NewAppointment from './newAppointment';
 import Appointments from './Appointments';
 import SearchByName from './searchAppointmentByName'
