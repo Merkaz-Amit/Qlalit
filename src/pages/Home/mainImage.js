@@ -1,4 +1,4 @@
-const mainImage = () => {
+const MainImage = () => {
     return(
             <div style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
                 <img
@@ -10,4 +10,4 @@ const mainImage = () => {
             </div>
     )
 }
-export default mainImage;
+export default MainImage;

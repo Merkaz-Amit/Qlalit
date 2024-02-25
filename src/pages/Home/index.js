@@ -1,12 +1,12 @@
 import * as React from 'react';
-import mainImage from './pages/mainImage'
-import newAppointmentButton from './pages/NewAppointmentButton';
+import MainImage from './mainImage'
+import newAppointmentButton from '../NewAppointmentButton';
 
 const Home = () => {
     document.title = 'Home'
     return (
         <>
-            {mainImage()}
+            <MainImage />
             {newAppointmentButton}
 
         </>

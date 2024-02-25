@@ -11,8 +11,9 @@ import dayjs from 'dayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import Popups from './popups'
-import specialties from './compenents/specialties';
+import specialties from '../../compenents/specialties';
 import tableFields from './fields';
+
 function AppointmentForm() {
     const [formData, setFormData] = useState({
       fullName: '',
@@ -118,4 +119,4 @@ function AppointmentForm() {
       </Box>
     );
   }
-export default AppointmentForm();
+export default AppointmentForm;
