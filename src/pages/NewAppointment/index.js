@@ -10,9 +10,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import Popups from './popups'
-import specialties from '../../compenents/specialties';
-import tableFields from './fields';
+import Swal from 'sweetalert2'
+import specialties from './specialties';
 
 function AppointmentForm() {
     const [formData, setFormData] = useState({
@@ -39,15 +38,18 @@ function AppointmentForm() {
       const saveDataToLocalStorage = JSON.parse(localStorage.getItem('formData')) || [];
       const updatedAppointments = Array.isArray(saveDataToLocalStorage) ? [...saveDataToLocalStorage, formData] : [formData];
       localStorage.setItem('formData', JSON.stringify(updatedAppointments));
-      Popups("Success")
+      Swal.fire({
+        title: "Success!",
+        text: "The Appointment Was Added!",
+        icon: "success"
+            })
       console.log(formData);
     };
   
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <form onSubmit={handleSubmit} style={{ width: '300px' }} onChange={handleInputChange}>
-        {tableFields("fullName",formData.fullName)}
-          {/* <TextField
+           <TextField
             id="fullName"
             name="fullName"
             label="Full Name"
@@ -58,7 +60,7 @@ function AppointmentForm() {
             pattern="[a-z]"
             type="text"
             fullWidth
-          /> */}
+          />
           <span class="validity"></span>
           <TextField
             name="age"
@@ -111,7 +113,7 @@ function AppointmentForm() {
               disablePast
             />
           </LocalizationProvider>
-          <Button type={formData.selectedDate == null ? "button" : "submit"} onClick={() => formData.selectedDate == null ? Popups("DateError") : null} variant="contained" fullWidth>
+          <Button type={formData.selectedDate == null ? "button" : "submit"} onClick={() => formData.selectedDate == null ? alert('You Forgot To Add A Date!') : null} variant="contained" fullWidth>
             Submit
           </Button>
         </form>

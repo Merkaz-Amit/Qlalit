@@ -1,4 +1,4 @@
-const specialties = [
+const Specialties = [
         {
           value: '',
           label: 'Select The Treatment That You Desire',
@@ -18,4 +18,4 @@ const specialties = [
       ];
 
     
-export default specialties;
+export default Specialties;
