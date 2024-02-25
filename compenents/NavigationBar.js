@@ -10,6 +10,8 @@ const NavigationBar = () => {
           <Link to="/" className="nav-link">Home</Link>
           <Link to="/appointments" className="nav-link">Free Appointments</Link>
           <Link to="/searchappointments" className="nav-link">Search Appointments</Link>
+		  <Link to="/searchbyname" className='nav-link'>Search Appointments By Name</Link>
+
         </li>
       </ul>
     </nav>

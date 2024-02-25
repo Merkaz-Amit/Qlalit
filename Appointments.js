@@ -1,11 +1,9 @@
 
 import * as React from 'react';
-
-
+const allAppointments = JSON.parse(localStorage.getItem('formData')) || [];
 
 function MyFrm() {
     document.title = 'Available  Appointments'
-    const allAppointments = JSON.parse(localStorage.getItem('formData')) || [];
     return (
         <div>
             <h1>Appointments</h1>
@@ -30,8 +28,10 @@ function MyFrm() {
                             <td>{appointments.selectedDate}</td>
                         </tr>
                     ))}
+
                 </tbody>
             </table>
+            
         </div>
     );
 };
