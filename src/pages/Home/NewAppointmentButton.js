@@ -16,7 +16,14 @@ function newAppointmentButton() {
                     borderRadius: '5px',
                     textDecoration: 'none',
                     display: 'inline-block', 
-                    cursor: 'pointer' 
+                    cursor: 'pointer', 
+                    width: '150px',
+                    height: '50px',
+                    textAlign: 'center',
+                    marginTop: '30px',
+                    marginBottom: '30px',
+                    lineHeight: '3'
+
                 }}>
                     New Appointment
                 </Link>

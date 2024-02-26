@@ -17,23 +17,13 @@ const SearchAppointments = (props) => {
   const columns = allAppointments.length > 0 ? 
     Object.keys(allAppointments[0]).map(key => ({
       field: key,
-      headerName: key === 'fullName' ? 'Full Name' : key.charAt(0).toUpperCase() + key.slice(1),
+      headerName:  (key.charAt(0).toUpperCase() + key.slice(1)).match(/[A-Z][a-z]+|[0-9]+/g).join(" "),
       width: 150,
       flex: 1
     })) 
     : [];
 
-    columns.forEach(column => {
-      if (column.field === 'fullName') {
-        column.headerName = 'Full Name';
-      }
-      if (column.field === 'medicalHelp') {
-        column.headerName = 'Medical Help';
-      }
-      if (column.field === 'selectedDate') {
-        column.headerName = 'Selected Date And Hour';
-      }
-    });
+    ;
   return (
     <div className="datagrid-style">
       <h1>Search Appointments</h1>

@@ -5,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from 'dayjs';
 
 const AvailableDates = () => {
-  const [formData, setFormData] = useState(JSON.parse(localStorage.getItem('formData')) || []);
+  const [formData, setFormData] = useState(JSON.parse(localStorage.getItem('workDays')) || []);
   const currentMonth = dayjs().month();
   const currentYear = dayjs().year();
   const totalDaysInMonth = dayjs().daysInMonth();
@@ -18,9 +18,9 @@ const AvailableDates = () => {
     }
   }
 
-  const takenDates = formData.map(appointment => dayjs(appointment.selectedDate).format('YYYY-MM-DD'));
+  const takenDates = formData.map(appointment => dayjs(appointment.date).format('YYYY-MM-DD'));
 
-  const availableDates = dates.filter(date => !takenDates.includes(date.format('YYYY-MM-DD')));
+  const availableDates = dates.filter(date => takenDates.includes(date.format('YYYY-MM-DD')));
 
   const rows = availableDates.map((date, index) => ({
     id: index + 1,
@@ -46,9 +46,9 @@ const AvailableDates = () => {
   ];
 
   const handleDeleteDate = (date) => {
-    const updatedFormData = [...formData, { selectedDate: date }];
+    const updatedFormData = [...formData, { date: date }];
     setFormData(updatedFormData);
-    localStorage.setItem('formData', JSON.stringify(updatedFormData));
+    localStorage.setItem('workDays', JSON.stringify(updatedFormData));
   };
 
   return (

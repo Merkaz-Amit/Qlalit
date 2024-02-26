@@ -11,7 +11,8 @@ import dayjs from 'dayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import Swal from 'sweetalert2';
-import specialties from './specialties';
+import specialties from '../../compenents/specialties';
+
 function AppointmentForm() {
     const [formData, setFormData] = useState({
         fullName: '',
@@ -22,6 +23,7 @@ function AppointmentForm() {
     });
 
     const [takenDates, setTakenDates] = useState([]);
+    const [availableDates, setAvailableDates] = useState([]);
 
     useEffect(() => {
         const savedFormData = localStorage.getItem('formData');
@@ -29,9 +31,13 @@ function AppointmentForm() {
             setFormData(JSON.parse(savedFormData));
         }
 
-        const savedAppointments = JSON.parse(localStorage.getItem('formData')) || [];
-        const dates = savedAppointments.map(appointment => dayjs(appointment.selectedDate).format('YYYY-MM-DDT'));
+        const savedAppointments = JSON.parse(localStorage.getItem('workDays')) || [];
+        const dates = savedAppointments.map(appointment => dayjs(appointment.date).format('YYYY-MM-DDT'));
         setTakenDates(dates);
+
+        const today = dayjs().startOf('day');
+        const futureDates = savedAppointments.filter(appointment => dayjs(appointment.date).isAfter(today));
+        setAvailableDates(futureDates);
     }, []);
 
     const handleInputChange = (event) => {
@@ -117,13 +123,13 @@ function AppointmentForm() {
                     <DateTimePicker
                         label="Date of appointment"
                         id="meetingDate"
-                        minDate={dayjs().add(1, 'day')}
+                        minDate={dayjs().startOf('day')}
                         value={formData.selectedDate}
                         onChange={handleDateChange}
                         inputFormat="yyyy-MM-dd hh:mm a"
                         renderInput={(params) => <TextField {...params} margin="normal" fullWidth />}
                         disablePast
-                        shouldDisableDate={(day) => takenDates.includes(day.format('YYYY-MM-DDT'))}
+                        shouldDisableDate={(day) => !takenDates.includes(day.format('YYYY-MM-DDT')) || day.isBefore(dayjs().startOf('day'))}
                     />
                 </LocalizationProvider>
                 <Button type={formData.selectedDate == null ? "button" : "submit"} onClick={() => formData.selectedDate == null ? alert('You Forgot To Add A Date!') : null} variant="contained" fullWidth>
@@ -133,4 +139,5 @@ function AppointmentForm() {
         </Box>
     );
 }
+
 export default AppointmentForm;
