@@ -1,38 +1,66 @@
+import React, { useState } from 'react';
+import { DataGrid } from '@mui/x-data-grid';
+import { IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import dayjs from 'dayjs';
 
-import * as React from 'react';
-const allAppointments = JSON.parse(localStorage.getItem('formData')) || [];
+const AvailableDates = () => {
+  const [formData, setFormData] = useState(JSON.parse(localStorage.getItem('formData')) || []);
+  const currentMonth = dayjs().month();
+  const currentYear = dayjs().year();
+  const totalDaysInMonth = dayjs().daysInMonth();
 
-function MyFrm() {
-    document.title = 'Available  Appointments'
-    return (
-        <div>
-            <h1>Appointments</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Full Name</th>
-                        <th>Age</th>
-                        <th>Medical Type</th>
-                        <th>Reason</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
+  const dates = [];
+  for (let i = 1; i <= totalDaysInMonth; i++) {
+    const currentDate = dayjs(`${currentYear}-${currentMonth + 1}-${i}`);
+    if (currentDate.isAfter(dayjs(), 'day')) {
+      dates.push(currentDate);
+    }
+  }
 
-                    {allAppointments.map((appointments , index) => (
-                        <tr key={index}>
-                            <td>{appointments.fullName}</td>
-                            <td>{appointments.age}</td>
-                            <td>{appointments.medicalHelp}</td>
-                            <td>{appointments.reason}</td>
-                            <td>{appointments.selectedDate}</td>
-                        </tr>
-                    ))}
+  const takenDates = formData.map(appointment => dayjs(appointment.selectedDate).format('YYYY-MM-DD'));
 
-                </tbody>
-            </table>
-            
-        </div>
-    );
+  const availableDates = dates.filter(date => !takenDates.includes(date.format('YYYY-MM-DD')));
+
+  const rows = availableDates.map((date, index) => ({
+    id: index + 1,
+    date: date.format('YYYY-MM-DD'),
+  }));
+
+  const columns = [
+    { field: 'date', headerName: 'Date', flex: 1, minWidth: 150 },
+    {
+      field: 'action',
+      headerName: 'Set Date Unavailable',
+      flex: 0.5,
+      minWidth: 100,
+      renderCell: (params) => (
+        <IconButton
+          onClick={() => handleDeleteDate(params.row.date)}
+          color="secondary"
+        >
+          <DeleteIcon />
+        </IconButton>
+      ),
+    },
+  ];
+
+  const handleDeleteDate = (date) => {
+    const updatedFormData = [...formData, { selectedDate: date }];
+    setFormData(updatedFormData);
+    localStorage.setItem('formData', JSON.stringify(updatedFormData));
+  };
+
+  return (
+    <div style={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5, 10, 20]}
+      />
+    </div>
+  );
 };
-export default MyFrm;
+
+export default AvailableDates;
