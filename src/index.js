@@ -13,7 +13,7 @@ const App = () => {
         <NavigationBar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/appointments" element={<AvailableDates />} />
+          <Route path="/available-dates" element={<AvailableDates />} />
           <Route path="/new-appointment" element={<AppointmentForm />} />
 		      <Route path="/search-appointments" element={<SearchByName />} />
           <Route path="/work-days" element={<WorkDaysForm />} />

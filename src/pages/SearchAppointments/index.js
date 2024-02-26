@@ -4,7 +4,7 @@ import { TextField } from '@mui/material';
 
 const SearchAppointments = (props) => {
   const [searchText, setSearchText] = useState('');
-  const allAppointments = JSON.parse(localStorage.getItem('formData')) || [];
+  const allAppointments = JSON.parse(localStorage.getItem('scheduledAppointments')) || [];
 
   const filteredData = allAppointments.map((item, index) => ({ ...item, id: index + 1 }))
     .filter(item => 

@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 import specialties from '../../compenents/specialties';
 
 function AppointmentForm() {
+    document.title = 'New Appointment';
     const [formData, setFormData] = useState({
         fullName: '',
         age: '',
@@ -26,12 +27,12 @@ function AppointmentForm() {
     const [availableDates, setAvailableDates] = useState([]);
 
     useEffect(() => {
-        const savedFormData = localStorage.getItem('formData');
+        const savedFormData = localStorage.getItem('scheduledAppointments');
         if (savedFormData) {
             setFormData(JSON.parse(savedFormData));
         }
 
-        const savedAppointments = JSON.parse(localStorage.getItem('workDays')) || [];
+        const savedAppointments = JSON.parse(localStorage.getItem('availableAppointments')) || [];
         const dates = savedAppointments.map(appointment => dayjs(appointment.date).format('YYYY-MM-DDT'));
         setTakenDates(dates);
 
@@ -51,16 +52,19 @@ function AppointmentForm() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const saveDataToLocalStorage = JSON.parse(localStorage.getItem('formData')) || [];
+        const saveDataToLocalStorage = JSON.parse(localStorage.getItem('scheduledAppointments')) || [];
         const updatedAppointments = Array.isArray(saveDataToLocalStorage) ? [...saveDataToLocalStorage, formData] : [formData];
-        localStorage.setItem('formData', JSON.stringify(updatedAppointments));
-        console.log(formData);
+        localStorage.setItem('scheduledAppointments', JSON.stringify(updatedAppointments));
+        
+        const updatedAvailableDates = availableDates.filter(appointment => !dayjs(appointment.date).isSame(formData.selectedDate, 'day'));
+        localStorage.setItem('availableAppointments', JSON.stringify(updatedAvailableDates));
+        
         Swal.fire({
             title: "Success!",
             text: "The Appointment Was Added!",
             icon: "success",
           }).then(function() {
-            window.location = "/appointments";
+            window.location = "/search-appointments";
           });
     };
 

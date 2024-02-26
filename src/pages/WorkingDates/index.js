@@ -7,13 +7,14 @@ import Button from '@mui/material/Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import TextField from '@mui/material/TextField'; // Import TextField from Material-UI
+import TextField from '@mui/material/TextField';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
-import 'dayjs/locale/en'; // Ensure to import the locale you want to use
+import 'dayjs/locale/en'; 
 import specialties from '../../compenents/specialties';
 
 function WorkingDays() {
+    document.title = 'New Work Date';
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedMedicalType, setSelectedMedicalType] = useState('');
 
@@ -26,13 +27,10 @@ function WorkingDays() {
     };
 
     const handleSubmit = () => {
-        // Save selected date and medical type to local storage
-        const workDays = JSON.parse(localStorage.getItem('workDays')) || [];
+        const workDays = JSON.parse(localStorage.getItem('availableAppointments')) || [];
         const newWorkDay = { date: selectedDate.format(), medicalType: selectedMedicalType };
         workDays.push(newWorkDay);
-        localStorage.setItem('workDays', JSON.stringify(workDays));
-
-        // Show success message
+        localStorage.setItem('availableAppointments', JSON.stringify(workDays));
         Swal.fire({
             title: 'Success!',
             text: 'The working day was added!',
