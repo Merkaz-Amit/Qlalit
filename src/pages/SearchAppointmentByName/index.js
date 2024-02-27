@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { TextField } from '@mui/material';
+import { IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const SearchByName = (props) => {
   document.title = 'Search Appointments';
   const [searchText, setSearchText] = useState('');
+  const [formData, setFormData] = useState(JSON.parse(localStorage.getItem('availableAppointments')) || []);
   const allAppointments = JSON.parse(localStorage.getItem('scheduledAppointments')) || [];
 
   const filteredData = allAppointments.map((item, index) => ({ ...item, id: index + 1 }))
@@ -15,6 +18,8 @@ const SearchByName = (props) => {
       item.fullName!==undefined
     );
 
+    
+
   const columns = allAppointments.length > 0 ? 
     Object.keys(allAppointments[0]).map(key => ({
       field: key,
@@ -23,6 +28,8 @@ const SearchByName = (props) => {
       flex: 1
     })) 
     : [];
+
+    
   return (
     <div className="datagrid-style">
       <h1>Search By Name</h1>

@@ -12,11 +12,16 @@ import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en'; 
 import specialties from '../../compenents/specialties';
+import Doctors from '../../compenents/doctors';
+
 
 function WorkingDays() {
     document.title = 'New Work Date';
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedMedicalType, setSelectedMedicalType] = useState('');
+    const [selectedDoctor, setSelectedDoctor] = useState('');
+    const savedAppointments = JSON.parse(localStorage.getItem('availableAppointments')) || [];
+    const dates = savedAppointments.map(appointment => dayjs(appointment.date).format('YYYY-MM-DDT'));
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -25,15 +30,22 @@ function WorkingDays() {
     const handleMedicalTypeChange = (event) => {
         setSelectedMedicalType(event.target.value);
     };
+    const handleDoctorChange = (event) => {
+        setSelectedDoctor(event.target.value);
+    };
 
     const handleSubmit = () => {
         const workDays = JSON.parse(localStorage.getItem('availableAppointments')) || [];
-        const newWorkDay = { date: selectedDate.format(), medicalType: selectedMedicalType };
+        const doctorsAppointments = JSON.parse(localStorage.getItem('doctorsAppointments')) || [];
+        const newDoctorsAppointments = { date: selectedDate.format(), doctor: selectedDoctor };
+        const newWorkDay = { date: selectedDate.format(), medicalType: selectedMedicalType, doctor: selectedDoctor };
         workDays.push(newWorkDay);
+        doctorsAppointments.push(newDoctorsAppointments);
+        localStorage.setItem('doctorsAppointments', JSON.stringify(workDays));
         localStorage.setItem('availableAppointments', JSON.stringify(workDays));
         Swal.fire({
             title: 'Success!',
-            text: 'The working day was added!',
+            text: 'This day was assigned to the doctor!',
             icon: 'success',
         });
     };
@@ -47,6 +59,10 @@ function WorkingDays() {
                     value={selectedDate}
                     onChange={handleDateChange}
                     renderInput={(params) => <TextField {...params} />}
+                    inputFormat="YYYY-MM-DDT"
+                    disablePast
+                    shouldDisableDate={(day) => dates.includes(day.format('YYYY-MM-DDT')) || day.isBefore(dayjs().startOf('day'))}
+
                 />
             </LocalizationProvider>
             <FormControl fullWidth>
@@ -59,6 +75,20 @@ function WorkingDays() {
                     {specialties.map((specialty) => (
                         <MenuItem key={specialty.value} value={specialty.value}>
                             {specialty.label}
+                        </MenuItem>
+                    ))}
+                </Select>
+                </FormControl>
+                <FormControl fullWidth>
+                <InputLabel id="doctor-label" margin='1'>Doctor</InputLabel>
+                <Select
+                    labelId="doctor-label"
+                    value={selectedDoctor}
+                    onChange={handleDoctorChange}
+                >
+                    {Doctors.map((doctors) => (
+                        <MenuItem key={doctors.value} value={doctors.value}>
+                            {doctors.label}
                         </MenuItem>
                     ))}
                 </Select>
