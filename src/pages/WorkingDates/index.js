@@ -31,18 +31,14 @@ function WorkingDays() {
     const handleMedicalTypeChange = (event) => {
         setSelectedMedicalType(event.target.value);
     };
-<<<<<<< HEAD
     const handleDoctorChange = (event) => {
         setSelectedDoctor(event.target.value);
         
     };
-=======
->>>>>>> parent of 2f3535f (new task "Doctor" added)
 
     const handleSubmit = () => {
 
         const workDays = JSON.parse(localStorage.getItem('availableAppointments')) || [];
-<<<<<<< HEAD
         const doctorsAppointments = JSON.parse(localStorage.getItem('doctorsAppointments')) || [];
         let result = (selectedDate.isBefore(selectedEndDate) || selectedDate.isSame(selectedEndDate));
         let count = 1;
@@ -55,10 +51,6 @@ function WorkingDays() {
             result = (selectedDate.add(count, 'day').isBefore(selectedEndDate) || selectedDate.add(count, 'day').isSame(selectedEndDate));
         }
         localStorage.setItem('doctorsAppointments', JSON.stringify(workDays));
-=======
-        const newWorkDay = { date: selectedDate.format(), medicalType: selectedMedicalType };
-        workDays.push(newWorkDay);
->>>>>>> parent of 2f3535f (new task "Doctor" added)
         localStorage.setItem('availableAppointments', JSON.stringify(workDays));
         Swal.fire({
             title: 'Success!',
@@ -77,7 +69,6 @@ function WorkingDays() {
                     id='startDate'
                     onChange={handleDateChange}
                     renderInput={(params) => <TextField {...params} />}
-<<<<<<< HEAD
                     inputFormat="YYYY-MM-DDT"
                     disablePast
                     //maxDate={selectedEndDate}
@@ -97,8 +88,6 @@ function WorkingDays() {
                     //minDate={selectedDate}
                     shouldDisableDate={(day) => dates.includes(day.format('YYYY-MM-DDT')) || day.isBefore(dayjs().startOf('day'))}
 
-=======
->>>>>>> parent of 2f3535f (new task "Doctor" added)
                 />
             </LocalizationProvider>
             <FormControl fullWidth>
@@ -114,7 +103,6 @@ function WorkingDays() {
                         </MenuItem>
                     ))}
                 </Select>
-<<<<<<< HEAD
             </FormControl>
             <FormControl fullWidth>
                 <InputLabel id="doctor-label" margin='1'>Doctor</InputLabel>
@@ -129,8 +117,6 @@ function WorkingDays() {
                         </MenuItem>
                     ))}
                 </Select>
-=======
->>>>>>> parent of 2f3535f (new task "Doctor" added)
             </FormControl>
             <Button onClick={handleSubmit} variant="contained" color="primary">
                 Submit
