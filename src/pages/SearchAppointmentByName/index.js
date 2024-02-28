@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { TextField } from '@mui/material';
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of 2f3535f (new task "Doctor" added)
 
 const SearchByName = (props) => {
   document.title = 'Search Appointments';
@@ -13,13 +9,9 @@ const SearchByName = (props) => {
   const filteredData = allAppointments.map((item, index) => ({ ...item, id: index + 1 }))
     .filter(item => (item.fullName.toLowerCase() == searchText.toLowerCase()) && (item.fullName !== undefined));
 
-<<<<<<< HEAD
 
 
   const columns = allAppointments.length > 0 ?
-=======
-  const columns = allAppointments.length > 0 ? 
->>>>>>> parent of 2f3535f (new task "Doctor" added)
     Object.keys(allAppointments[0]).map(key => ({
       field: key,
       headerName: (key.charAt(0).toUpperCase() + key.slice(1)).match(/[A-Z][a-z]+|[0-9]+/g).join(" "),
@@ -27,11 +19,8 @@ const SearchByName = (props) => {
       flex: 1
     }))
     : [];
-<<<<<<< HEAD
 
 
-=======
->>>>>>> parent of 2f3535f (new task "Doctor" added)
   return (
     <div className="datagrid-style">
       <h1>Search By Name</h1>
