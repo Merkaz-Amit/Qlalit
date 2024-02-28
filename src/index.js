@@ -21,7 +21,6 @@ const App = () => {
           <Route path="/work-days" element={<WorkDaysForm />} />
           <Route path="/doctors" element={<DoctorsList />} />
           <Route path="/doctors-chart" element={<AppointmentsByDoctorChart />} />
-
         </Routes>
         <link rel = 'stylesheet' href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
         <favicon rel = 'favicon'/>
