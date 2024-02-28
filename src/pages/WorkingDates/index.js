@@ -12,6 +12,8 @@ import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en';
 import specialties from '../../compenents/specialties';
+import Doctors from '../../compenents/doctors';
+
 
 function WorkingDays() {
     document.title = 'New Work Date';
@@ -19,6 +21,9 @@ function WorkingDays() {
     const [selectedEndDate, setSelectedEndDate] = useState(null);
 
     const [selectedMedicalType, setSelectedMedicalType] = useState('');
+    const [selectedDoctor, setSelectedDoctor] = useState('');
+    const savedAppointments = JSON.parse(localStorage.getItem('availableAppointments')) || [];
+    const dates = savedAppointments.map(appointment => dayjs(appointment.date).format('YYYY-MM-DDT'));
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -54,7 +59,7 @@ function WorkingDays() {
         localStorage.setItem('availableAppointments', JSON.stringify(workDays));
         Swal.fire({
             title: 'Success!',
-            text: 'The working day was added!',
+            text: 'This day was assigned to the doctor!',
             icon: 'success',
         });
     };

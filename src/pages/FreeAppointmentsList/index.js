@@ -9,7 +9,7 @@ const AvailableDates = () => {
   const [formData, setFormData] = useState(JSON.parse(localStorage.getItem('availableAppointments')) || []);
   const currentMonth = dayjs().month();
   const currentYear = dayjs().year();
-  const totalDaysInMonth = dayjs().daysInMonth();
+  const totalDaysInMonth = ((dayjs().daysInMonth())+((dayjs().daysInMonth(currentMonth+1))));
 
   const dates = [];
   for (let i = 1; i <= totalDaysInMonth; i++) {
@@ -18,6 +18,7 @@ const AvailableDates = () => {
       dates.push(currentDate);
     }
   }
+
 
   const takenDates = formData.map(appointment => dayjs(appointment.date).format('YYYY-MM-DD'));
 
@@ -54,6 +55,7 @@ const AvailableDates = () => {
 
   return (
     <div style={{ height: 400, width: '100%' }}>
+    <h1>Available dates in the next 60 days:</h1>
       <DataGrid
         rows={rows}
         columns={columns}

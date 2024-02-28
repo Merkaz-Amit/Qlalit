@@ -20,8 +20,10 @@ function AppointmentForm() {
         age: '',
         medicalHelp: '',
         reason: '',
-        selectedDate: null
+        selectedDate: null,
+        selectedDoctor: null
     });
+    const doctorList = JSON.parse(localStorage.getItem('doctorsAppointments')) || [];
 
     const [takenDates, setTakenDates] = useState([]);
     const [availableDates, setAvailableDates] = useState([]);
@@ -44,14 +46,19 @@ function AppointmentForm() {
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
+
+
     };
 
     const handleDateChange = (date) => {
-        setFormData({ ...formData, selectedDate: date });
+        const selectedDoctorName = (doctorList.filter(doctor => dayjs(doctor.date).format('YYYY-MM-DDT') === dayjs(date).format('YYYY-MM-DDT'))[0]).doctor;
+
+        setFormData({ ...formData, selectedDate: date,selectedDoctor:selectedDoctorName });
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        console.log(formData);
         const saveDataToLocalStorage = JSON.parse(localStorage.getItem('scheduledAppointments')) || [];
         const updatedAppointments = Array.isArray(saveDataToLocalStorage) ? [...saveDataToLocalStorage, formData] : [formData];
         localStorage.setItem('scheduledAppointments', JSON.stringify(updatedAppointments));
