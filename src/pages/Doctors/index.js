@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 const DoctorsList = () => {
     const [scheduledAppointments, setScheduledAppointments] = useState(JSON.parse(localStorage.getItem('scheduledAppointments')) || []);
     const [availableAppointments, setAvailableAppointments] = useState(JSON.parse(localStorage.getItem('availableAppointments')) || []);
+    const [doctorsAppointments, setDoctorsAppointments] = useState(JSON.parse(localStorage.getItem('doctorsAppointments')) || []);
 
     const doctors = Array.from(new Set(Doctors.map(appointment => appointment.label)));
 
@@ -71,6 +72,12 @@ const DoctorsList = () => {
         const updatedAvailableAppointments = availableAppointments.filter(appointment => appointment.doctor !== doctor);
         setAvailableAppointments(updatedAvailableAppointments);
         localStorage.setItem('availableAppointments', JSON.stringify(updatedAvailableAppointments));
+        
+        // Remove doctor's appointments from doctor's appointments
+        const updatedDoctorsAppointments = doctorsAppointments.filter(doctor => doctor.doctor !== doctor);
+        setDoctorsAppointments(updatedDoctorsAppointments);
+        localStorage.setItem('doctorsAppointments', JSON.stringify(updatedDoctorsAppointments));
+
 
     };
 

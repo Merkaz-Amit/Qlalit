@@ -10,7 +10,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import TextField from '@mui/material/TextField';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
-import 'dayjs/locale/en'; 
+import 'dayjs/locale/en';
 import specialties from '../../compenents/specialties';
 import Doctors from '../../compenents/doctors';
 
@@ -18,6 +18,8 @@ import Doctors from '../../compenents/doctors';
 function WorkingDays() {
     document.title = 'New Work Date';
     const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedEndDate, setSelectedEndDate] = useState(null);
+
     const [selectedMedicalType, setSelectedMedicalType] = useState('');
     const [selectedDoctor, setSelectedDoctor] = useState('');
     const savedAppointments = JSON.parse(localStorage.getItem('availableAppointments')) || [];
@@ -26,21 +28,33 @@ function WorkingDays() {
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
+    const handleEndDateChange = (date) => {
+        setSelectedEndDate(date);
+    };
+
 
     const handleMedicalTypeChange = (event) => {
         setSelectedMedicalType(event.target.value);
     };
     const handleDoctorChange = (event) => {
         setSelectedDoctor(event.target.value);
+        
     };
 
     const handleSubmit = () => {
+
         const workDays = JSON.parse(localStorage.getItem('availableAppointments')) || [];
         const doctorsAppointments = JSON.parse(localStorage.getItem('doctorsAppointments')) || [];
-        const newDoctorsAppointments = { date: selectedDate.format(), doctor: selectedDoctor };
-        const newWorkDay = { date: selectedDate.format(), medicalType: selectedMedicalType, doctor: selectedDoctor };
-        workDays.push(newWorkDay);
-        doctorsAppointments.push(newDoctorsAppointments);
+        let result = (selectedDate.isBefore(selectedEndDate) || selectedDate.isSame(selectedEndDate));
+        let count = 1;
+        while (result) {
+            const newDoctorsAppointments = { date: selectedDate.add(count, 'day').format(), doctor: selectedDoctor };
+            const newWorkDay = { date: selectedDate.add(count, 'day').format(), medicalType: selectedMedicalType, doctor: selectedDoctor };
+            workDays.push(newWorkDay);
+            doctorsAppointments.push(newDoctorsAppointments);
+            count++;
+            result = (selectedDate.add(count, 'day').isBefore(selectedEndDate) || selectedDate.add(count, 'day').isSame(selectedEndDate));
+        }
         localStorage.setItem('doctorsAppointments', JSON.stringify(workDays));
         localStorage.setItem('availableAppointments', JSON.stringify(workDays));
         Swal.fire({
@@ -55,12 +69,28 @@ function WorkingDays() {
             <h2>Add Working Day</h2>
             <LocalizationProvider dateAdapter={AdapterDayjs} locale="en">
                 <DatePicker
-                    label="Date"
+                    label="Start Date"
                     value={selectedDate}
+                    id='startDate'
                     onChange={handleDateChange}
                     renderInput={(params) => <TextField {...params} />}
                     inputFormat="YYYY-MM-DDT"
                     disablePast
+                    //maxDate={selectedEndDate}
+                    shouldDisableDate={(day) => dates.includes(day.format('YYYY-MM-DDT')) || day.isBefore(dayjs().startOf('day'))}
+
+                />
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs} locale="en">
+                <DatePicker
+                    label="End Date"
+                    value={selectedEndDate}
+                    id='endDate'
+                    onChange={handleEndDateChange}
+                    renderInput={(params) => <TextField {...params} />}
+                    inputFormat="YYYY-MM-DDT"
+                    disablePast
+                    //minDate={selectedDate}
                     shouldDisableDate={(day) => dates.includes(day.format('YYYY-MM-DDT')) || day.isBefore(dayjs().startOf('day'))}
 
                 />
@@ -78,8 +108,8 @@ function WorkingDays() {
                         </MenuItem>
                     ))}
                 </Select>
-                </FormControl>
-                <FormControl fullWidth>
+            </FormControl>
+            <FormControl fullWidth>
                 <InputLabel id="doctor-label" margin='1'>Doctor</InputLabel>
                 <Select
                     labelId="doctor-label"
