@@ -9,8 +9,12 @@ const NavigationBar = () => {
           <Link to="/available-dates" className="nav-link">Available Dates</Link>
           <Link to="/search-appointments" className="nav-link">Search Appointments</Link>
           <Link to="/work-days" className="nav-link">New Work Day</Link>
+<<<<<<< HEAD
           <Link to="/doctors" className="nav-link">Doctors</Link>
           <Link to="/doctors-chart" className="nav-link">Doctors Chart</Link>
+=======
+
+>>>>>>> parent of 2f3535f (new task "Doctor" added)
         </li>
       </ul>
     </nav>
