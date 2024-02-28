@@ -1,18 +1,4 @@
-const Doctors = [
-
-    {
-      value: 'Dr. Peepee',
-      label: 'Dr. Peepee',
-    },
-    {
-      value: 'Dr. Poopoo',
-      label: 'Dr. Poopoo',
-    },
-    {
-      value: 'Dr. Gaga',
-      label: 'Dr. Gaga',
-    },
-  ];
+const Doctors = JSON.parse(localStorage.getItem('doctorsNames')) || [];
 
 
 export default Doctors;

@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import NavigationBar from './compenents/NavigationBar';
+import NavigationBar from './compenents/NavigationBar/NavigationBar';
 import Home from './pages/Home';
 import AppointmentForm from './pages/NewAppointment/';
 import AvailableDates from './pages/FreeAppointmentsList/';
 import SearchByName from './pages/SearchAppointmentByName/';
 import WorkDaysForm from './pages/WorkingDates/';
 import DoctorsList from './pages/Doctors/';
+import DoctorsManagement from './pages/DoctorManagement';
 import AppointmentsByDoctorChart from './pages/Charts';
 import ReactDOM from "react-dom";
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/work-days" element={<WorkDaysForm />} />
           <Route path="/doctors" element={<DoctorsList />} />
           <Route path="/doctors-chart" element={<AppointmentsByDoctorChart />} />
+          <Route path="/doctor-management" element={<DoctorsManagement />} />
         </Routes>
         <link rel = 'stylesheet' href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
         <favicon rel = 'favicon'/>

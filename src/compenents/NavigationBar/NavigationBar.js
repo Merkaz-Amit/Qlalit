@@ -11,6 +11,7 @@ const NavigationBar = () => {
           <Link to="/work-days" className="nav-link">New Work Day</Link>
           <Link to="/doctors" className="nav-link">Doctors</Link>
           <Link to="/doctors-chart" className="nav-link">Doctors Chart</Link>
+          <Link to="/doctor-management" className='nav-link'>Doctor Management</Link>
         </li>
       </ul>
     </nav>
