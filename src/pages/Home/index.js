@@ -1,13 +1,13 @@
 import * as React from 'react';
 import MainImage from './mainImage'
-import NewAppointmentButton from './NewAppointmentButton';
+import newAppointmentButton from './newAppointmentButton';
 
 const Home = () => {
     document.title = 'Home'
     return (
         <>
             <MainImage/>
-            <NewAppointmentButton/>
+            {newAppointmentButton}
 
         </>
     );
