@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { TextField } from '@mui/material';
 
+
 const SearchByName = (props) => {
   document.title = 'Search Appointments';
   const [searchText, setSearchText] = useState('');
