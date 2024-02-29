@@ -8,10 +8,12 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import Swal from 'sweetalert2';
-import specialties from '../../compenents/specialties';
+import specialties from '../../compenents/Util/specialties';
+import jsonParse from '../../compenents/Util/jsonParse';
+import swalAlerts from '../../compenents/Util/swalAlerts';
+import TimeFormat from '../../compenents/Util/timeFormat';
 
 function AppointmentForm() {
     document.title = 'New Appointment';
@@ -21,10 +23,9 @@ function AppointmentForm() {
         medicalHelp: '',
         reason: '',
         selectedDate: null,
-        selectedDoctor: null
+        doctor: null
     });
-    const doctorList = JSON.parse(localStorage.getItem('doctorsAppointments')) || [];
-
+    const doctorList = jsonParse('doctorsAppointments');
     const [takenDates, setTakenDates] = useState([]);
     const [availableDates, setAvailableDates] = useState([]);
 
@@ -34,8 +35,8 @@ function AppointmentForm() {
             setFormData(JSON.parse(savedFormData));
         }
 
-        const savedAppointments = JSON.parse(localStorage.getItem('availableAppointments')) || [];
-        const dates = savedAppointments.map(appointment => dayjs(appointment.date).format('YYYY-MM-DDT'));
+        const savedAppointments = jsonParse('availableAppointments');
+        const dates = savedAppointments.map(appointment => TimeFormat(appointment.date));
         setTakenDates(dates);
 
         const today = dayjs().startOf('day');
@@ -46,33 +47,23 @@ function AppointmentForm() {
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
-
-
     };
 
     const handleDateChange = (date) => {
-        const selectedDoctorName = (doctorList.filter(doctor => dayjs(doctor.date).format('YYYY-MM-DDT') === dayjs(date).format('YYYY-MM-DDT'))[0]).doctor;
-
-        setFormData({ ...formData, selectedDate: date,selectedDoctor:selectedDoctorName });
+        const selectedDoctorName = (doctorList.filter(doctor => TimeFormat(doctor.date) === TimeFormat(date))[0]).doctor;
+        setFormData({ ...formData, selectedDate: TimeFormat(date), doctor: selectedDoctorName });
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(formData);
-        const saveDataToLocalStorage = JSON.parse(localStorage.getItem('scheduledAppointments')) || [];
+        const saveDataToLocalStorage = jsonParse('scheduledAppointments');
         const updatedAppointments = Array.isArray(saveDataToLocalStorage) ? [...saveDataToLocalStorage, formData] : [formData];
         localStorage.setItem('scheduledAppointments', JSON.stringify(updatedAppointments));
-        
+
         const updatedAvailableDates = availableDates.filter(appointment => !dayjs(appointment.date).isSame(formData.selectedDate, 'day'));
         localStorage.setItem('availableAppointments', JSON.stringify(updatedAvailableDates));
-        
-        Swal.fire({
-            title: "Success!",
-            text: "The Appointment Was Added!",
-            icon: "success",
-          }).then(function() {
-            window.location = "/search-appointments";
-          });
+        swalAlerts('appointmentFormSubmission')
     };
 
     return (
@@ -95,8 +86,9 @@ function AppointmentForm() {
                     name="age"
                     label="Age"
                     type='number'
-                    value={formData.age = formData.age >= 1 ? formData.age : 1}
+                    value={formData.age = formData.age >= 1 ? formData.age : ''}
                     onChange={handleInputChange}
+                    placeholder='Age'
                     margin="normal"
                     required
                     fullWidth
@@ -131,16 +123,16 @@ function AppointmentForm() {
                     rows={4}
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateTimePicker
+                    <DatePicker
                         label="Date of appointment"
                         id="meetingDate"
                         minDate={dayjs().startOf('day')}
                         value={formData.selectedDate}
                         onChange={handleDateChange}
-                        inputFormat="yyyy-MM-dd hh:mm a"
+                        inputFormat="yyyy-MM-dd"
                         renderInput={(params) => <TextField {...params} margin="normal" fullWidth />}
                         disablePast
-                        shouldDisableDate={(day) => !takenDates.includes(day.format('YYYY-MM-DDT')) || day.isBefore(dayjs().startOf('day'))}
+                        shouldDisableDate={(day) => !takenDates.includes(TimeFormat(day)) || day.isBefore(dayjs().startOf('day'))}
                     />
                 </LocalizationProvider>
                 <Button type={formData.selectedDate == null ? "button" : "submit"} onClick={() => formData.selectedDate == null ? alert('You Forgot To Add A Date!') : null} variant="contained" fullWidth>

@@ -1,14 +1,13 @@
 import * as React from 'react';
 import MainImage from './mainImage'
-import NewAppointmentButton from './NewAppointmentButton';
+import ButtonLink from '../../compenents/Util/Buttons';
 
 const Home = () => {
     document.title = 'Home'
     return (
         <>
             <MainImage/>
-            <NewAppointmentButton/>
-
+            {ButtonLink("mainButton","/new-appointment", "New Appointmant")}
         </>
     );
 };

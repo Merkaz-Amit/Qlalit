@@ -3,10 +3,12 @@ import { DataGrid } from '@mui/x-data-grid';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from 'dayjs';
+import jsonParse from '../../compenents/Util/jsonParse';
+import TimeFormat from '../../compenents/Util/timeFormat';
 
 const AvailableDates = () => {
   document.title = 'Available Dates';
-  const [formData, setFormData] = useState(JSON.parse(localStorage.getItem('availableAppointments')) || []);
+  const [formData, setFormData] = useState(jsonParse('availableAppointments'));
   const currentMonth = dayjs().month();
   const currentYear = dayjs().year();
   const totalDaysInMonth = ((dayjs().daysInMonth())+((dayjs().daysInMonth(currentMonth+1))));
@@ -20,13 +22,13 @@ const AvailableDates = () => {
   }
 
 
-  const takenDates = formData.map(appointment => dayjs(appointment.date).format('YYYY-MM-DD'));
+  const takenDates = formData.map(appointment => TimeFormat(appointment.date));
 
-  const availableDates = dates.filter(date => takenDates.includes(date.format('YYYY-MM-DD')));
+  const availableDates = dates.filter(date => takenDates.includes(TimeFormat(date)));
 
   const rows = availableDates.map((date, index) => ({
     id: index + 1,
-    date: date.format('YYYY-MM-DD'),
+    date: TimeFormat(date),
   }));
 
   const columns = [
@@ -54,8 +56,8 @@ const AvailableDates = () => {
   };
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
-    <h1>Available dates in the next 60 days:</h1>
+    <div style={{ height: 770, width: '100%', fontFamily: 'Inter' }}>
+    <center><h1>Available dates in the next 60 days:</h1></center>
       <DataGrid
         rows={rows}
         columns={columns}

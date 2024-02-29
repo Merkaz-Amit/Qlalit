@@ -1,0 +1,39 @@
+.nav-link {
+    text-decoration: none; 
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: #db3c3c;
+    transition: background-color 0.3s ease;
+    margin-right: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+
+  }
+  
+  .nav-link:hover {
+    background-color: #911717;
+  }
+  
+  .mainButton{
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: '1';
+    background-color: #e27474;
+    color: #fff;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px; 
+    font-weight: 500; 
+    border-radius: 15px;
+    
+  }
+  .mainButton:hover {
+    background-color: #db3c3c; 
+
+  }

@@ -1,0 +1,21 @@
+.navbar {
+    background-color: #e27474; /* Background color */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    padding: 10px; /* Padding */
+  }
+  
+  .nav-menu {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+    margin: 0;
+    display: flex; /* Display items horizontally */
+  }
+  
+  .nav-item {
+    margin-right: 20px; /* Spacing between items */
+    margin-left: 20px;
+    list-style-type: none; /* Remove bullet points */
+  }
+  
+ 
